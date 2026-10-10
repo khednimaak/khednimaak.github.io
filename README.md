@@ -1,5 +1,7 @@
 # Khedni Maak! · shared links
 
+Published at **https://khednimaak.github.io** (GitHub Pages, organization `khednimaak`).
+
 Public "open in the app" pages for links shared from the **Khedni Maak!** app (USJ carpooling).
 The app's code lives in a separate private repository.
 
