@@ -1,0 +1,88 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Khedni Maak! · Ride together to campus</title>
+<meta name="description" content="Open this profile in Khedni Maak!, the USJ carpooling app.">
+<meta name="robots" content="noindex">
+<!-- Link preview card (WhatsApp, Messages…). No personal data: the same card for every link. -->
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Khedni Maak!">
+<meta property="og:title" content="Khedni Maak! · Ride together to campus">
+<meta property="og:description" content="Open this profile in Khedni Maak!, carpooling for the USJ community.">
+<meta property="og:image" content="https://sandynahra.github.io/khedni-maak-links/og.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="A car full of students driving between two USJ campuses">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" href="../scene.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@700&family=Plus+Jakarta+Sans:wght@500;700;800&display=swap" rel="stylesheet">
+<style>
+  :root { --bg:#F5F7FA; --surface:#FFFFFF; --border:#E1E6F0; --text:#14286B; --text2:#4A5578; --muted:#5A6585; --primary:#14286B; --onPrimary:#FFFFFF; --accentText:#0E7356; }
+  @media (prefers-color-scheme: dark) {
+    :root { --bg:#121316; --surface:#1C1D21; --border:#2E3036; --text:#F2F3F5; --text2:#A3A6AE; --muted:#A3A6AE; --primary:#3D5BD9; --accentText:#4FD1A0; }
+  }
+  * { box-sizing: border-box; }
+  body { margin:0; min-height:100vh; background:var(--bg); color:var(--text); font-family:'Plus Jakarta Sans', system-ui, sans-serif;
+         display:flex; align-items:center; justify-content:center; padding:24px 20px; }
+  main { width:100%; max-width:380px; text-align:center; }
+  .scene { width:220px; max-width:70%; height:auto; }
+  .wordmark { font-family:'Fredoka', 'Plus Jakarta Sans', sans-serif; font-weight:700; font-size:44px; line-height:1; margin:8px 0 18px; }
+  .wordmark span { color:var(--accentText); }
+  .card { background:var(--surface); border:1px solid var(--border); border-radius:24px; padding:20px; }
+  .lines p { margin:0 0 6px; font-size:15px; font-weight:500; color:var(--text2); }
+  .lines p[lang="ar"] { font-family:'Plus Jakarta Sans', 'Geeza Pro', 'Noto Sans Arabic', sans-serif; }
+  .button { display:flex; align-items:center; justify-content:center; height:54px; margin-top:16px; border-radius:14px;
+            background:var(--primary); color:var(--onPrimary); font-size:16px; font-weight:700; text-decoration:none; }
+  .button[aria-disabled="true"] { opacity:.5; pointer-events:none; }
+  .note { margin:14px 0 0; font-size:12px; line-height:1.5; color:var(--muted); }
+</style>
+</head>
+<body>
+<main>
+  <img class="scene" src="../scene.svg" alt="">
+  <h1 class="wordmark">Khedni <span>Maak!</span></h1>
+  <div class="card">
+    <div class="lines">
+      <p lang="en">Opening this profile in Khedni Maak!</p>
+      <p lang="fr">Ouverture de ce profil dans Khedni Maak!</p>
+      <p lang="ar" dir="rtl">جارٍ فتح هذا الملف في Khedni Maak!</p>
+    </div>
+    <a id="open" class="button" href="#" aria-disabled="true">Open in Khedni Maak!</a>
+    <p class="note" id="note">
+      Don’t have the app yet? It’s coming soon to the USJ community.<br>
+      Vous n’avez pas encore l’app ? Elle arrive bientôt à l’USJ.<br>
+      <span dir="rtl">ليس لديك التطبيق بعد؟ سيتوفّر قريبًا لمجتمع جامعة القديس يوسف.</span>
+    </p>
+  </div>
+</main>
+<script>
+  // Opens the profile in the app. Only a user id (UUID) is accepted: nothing else from the
+  // address is ever used, and no profile data is loaded on this page.
+  (function () {
+    var id = new URLSearchParams(location.search).get('id') || '';
+    var button = document.getElementById('open');
+    var labels = { fr: 'Ouvrir dans Khedni Maak!', ar: 'افتح في Khedni Maak!', en: 'Open in Khedni Maak!' };
+    var lang = (navigator.language || 'en').slice(0, 2);
+    button.textContent = labels[lang] || labels.en;
+    if (lang === 'ar') button.dir = 'rtl';
+    if (!/^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(id)) return;
+
+    // config.json says where the app is: the Expo development server (exp://<laptop>:8081/--)
+    // during development, khednimaak:/ in the real app. The query string skips the CDN cache.
+    fetch('../config.json?t=' + Date.now(), { cache: 'no-store' })
+      .then(function (r) { return r.json(); })
+      .then(function (config) {
+        var url = config.appBase + '/user/' + id;
+        button.href = url;
+        button.removeAttribute('aria-disabled');
+        // Try to open the app right away; the button stays as a fallback.
+        setTimeout(function () { location.href = url; }, 300);
+      })
+      .catch(function () {});
+  })();
+</script>
+</body>
+</html>
