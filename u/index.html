@@ -48,7 +48,7 @@
     <div class="lines">
       <p lang="en">Opening this profile in Khedni Maak!</p>
       <p lang="fr">Ouverture de ce profil dans Khedni Maak!</p>
-      <p lang="ar" dir="rtl">جارٍ فتح هذا الملف في Khedni Maak!</p>
+      <p lang="ar" dir="rtl">جارٍ فتح هذا الملف في <bdi dir="ltr">Khedni Maak!</bdi></p>
     </div>
     <a id="open" class="button" href="#" aria-disabled="true">Open in Khedni Maak!</a>
     <p class="note" id="note">
@@ -64,7 +64,7 @@
   (function () {
     var id = new URLSearchParams(location.search).get('id') || '';
     var button = document.getElementById('open');
-    var labels = { fr: 'Ouvrir dans Khedni Maak!', ar: 'افتح في Khedni Maak!', en: 'Open in Khedni Maak!' };
+    var labels = { fr: 'Ouvrir dans Khedni Maak!', ar: 'افتح في ⁦Khedni Maak!⁩', en: 'Open in Khedni Maak!' };
     var lang = (navigator.language || 'en').slice(0, 2);
     button.textContent = labels[lang] || labels.en;
     if (lang === 'ar') button.dir = 'rtl';
